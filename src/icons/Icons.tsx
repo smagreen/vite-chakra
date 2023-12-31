@@ -9,8 +9,8 @@ export function CheckIcon(props: any) {
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M11 22C17.0751 22 22 17.0751 22 11C22 4.92487 17.0751 0 11 0C4.92487 0 0 4.92487 0 11C0 17.0751 4.92487 22 11 22ZM6.2 10.0857L5 11.3714L9 16L17 8.28571L15.8 7L9 12.4L6.2 10.0857Z'
         fill='#652CD3'
       />
@@ -35,9 +35,9 @@ export function MoneyBackGuaranteeIcon(props: any) {
       <path
         d='M23 43C23 43 3 35 3 9L23 3L43 9C43 35 23 43 23 43Z'
         stroke='#CBD5E0'
-        stroke-width='4.8'
-        stroke-miterlimit='10'
-        stroke-linecap='square'
+        strokeWidth='4.8'
+        strokeMiterlimit='10'
+        strokeLinecap='square'
       />
     </svg>
   );
