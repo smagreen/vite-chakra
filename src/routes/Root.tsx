@@ -1,16 +1,9 @@
 import { Routes, Route, Link, Navigate, Outlet } from 'react-router-dom';
-import { useState } from "react";
 import Navbar from '../Navbar';
-import AuthProvider from '../AuthProvider';
+import { useAuth } from '../AuthProvider'; 
+
 import App from '../App';
-
-
-interface AuthorisedUser {
-  id: string;
-  name: string;
-  permissions: string[];
-  roles: string[];
-}
+import { Box } from '@chakra-ui/react';
 
 interface ProtectedRouteProps { 
   isAllowed: boolean;
@@ -18,33 +11,19 @@ interface ProtectedRouteProps {
   children?: React.ReactNode;
 }
 
-
 export default function Root() {
 
-  const [user, setUser] = useState(null);
-  const handleLogin = () => setUser({ 
-    id: '1',
-    name: 'Steve',
-    permissions: ['analyze'],
-    roles: ['admin'],
-  });
-  const handleLogout = () => setUser(null);
-
-    return (
+  const { token } = useAuth();
+  
+  return (
       <>
-      {/* <Navbar /> */}
-      <Navigation />
-
-      {user ? (
-        <button onClick={handleLogout}>Sign Out : {user.name}</button>
-      ) : (
-        <button onClick={handleLogin}>Sign In</button>
-      )}
-
+      <Navbar /> 
+  
       <Routes>
         <Route index element={<App />} />
-        <Route path="landing" element={<App />} />
-        <Route element={<ProtectedRoute isAllowed={!!user} />}>
+        <Route path="login" element={<Login />} />
+        <Route path="about" element={<About />} />
+        <Route element={<ProtectedRoute isAllowed={!!token} redirectPath='login' />}>
           <Route path="home" element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
         </Route>
@@ -52,9 +31,9 @@ export default function Root() {
           path="analytics"
           element={
             <ProtectedRoute
-              redirectPath="/home"
+              redirectPath="/login"
               isAllowed={
-                !!user && user.permissions.includes('analyze')
+                !!token && token.permissions.includes('analyze')
               }
             >
               <Analytics />
@@ -65,8 +44,8 @@ export default function Root() {
           path="admin"
           element={
             <ProtectedRoute
-              redirectPath="/home"
-              isAllowed={!!user && user.roles.includes('admin')}
+              redirectPath="/login"
+              isAllowed={!!token && token.roles.includes('admin')}
             >
               <Admin />
             </ProtectedRoute>
@@ -80,7 +59,7 @@ export default function Root() {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
     isAllowed,
-    redirectPath = '/landing',
+    redirectPath = '/',
     children,
  }) => {
   if (!isAllowed) {
@@ -90,18 +69,27 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   return children ? children : <Outlet />;
 };
 
-const Navigation = () => (
-  <nav>
-    <Link to="/landing">Landing</Link>
-    <Link to="/home">Home</Link>
-    <Link to="/dashboard">Dashboard</Link>
-    <Link to="/analytics">Analytics</Link>
-    <Link to="/admin">Admin</Link>
-  </nav>
-);
 
-const Landing = () => {
-  return <h2>Landing (Public: anyone can access this page)</h2>;
+const Login = () => {
+  return (
+    <>
+      <Box mt="90px" mx="4">
+      <h2>Login (Public: anyone can access this page)</h2>
+      </Box>
+      
+    </>
+  );
+};
+
+const About = () => {
+  return (
+    <>
+      <Box mt="90px" mx="4">
+      <h2>About (Public: anyone can access this page)</h2>
+      </Box>
+      
+    </>
+  );
 };
 
 const Home = () => {
