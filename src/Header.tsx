@@ -5,7 +5,7 @@ export const Header = () => (
       <Box
         color='gray.50'
         bg='purple.600'
-        pt='90px'
+        pt='148px'
         pb='28'
         px='8'
         textAlign='center'
