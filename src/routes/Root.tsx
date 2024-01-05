@@ -1,4 +1,4 @@
-import { Routes, Route, Link, Navigate, Outlet } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Navbar from '../Navbar';
 import { useAuth } from '../AuthProvider'; 
 
@@ -13,7 +13,7 @@ interface ProtectedRouteProps {
 
 export default function Root() {
 
-  const { token } = useAuth();
+  const token = useAuth()?.token;
   
   return (
       <>
@@ -93,26 +93,45 @@ const About = () => {
 };
 
 const Home = () => {
-  return <h2>Home (Protected: authenticated user required)</h2>;
+  return (
+  <>
+    <Box mt="90px" mx="4">
+      <h2>About (Public: anyone can access this page)</h2>
+    </Box>
+  </>  
+  )
 };
 
 const Dashboard = () => {
-  return <h2>Dashboard (Protected: authenticated user required)</h2>;
+   
+  return (
+    <>
+      <Box mt="90px" mx="4">
+        <h2>Dashboard (Protected: authenticated user required)</h2>
+      </Box>
+    </>  
+  )
 };
 
 const Analytics = () => {
+
   return (
-    <h2>
-      Analytics (Protected: authenticated user with permission
-      'analyze' required)
-    </h2>
-  );
+    <>
+      <Box mt="90px" mx="4">
+        <h2> Analytics (Protected: authenticated user with permission
+      'analyze' required)</h2>
+      </Box>
+    </>  
+  )
 };
 
 const Admin = () => {
+
   return (
-    <h2>
-      Admin (Protected: authenticated user with role 'admin' required)
-    </h2>
-  );
+    <>
+      <Box mt="90px" mx="4">
+        <h2> Admin (Protected: authenticated user with role 'admin' required))</h2>
+      </Box>
+    </>
+  )
 };
