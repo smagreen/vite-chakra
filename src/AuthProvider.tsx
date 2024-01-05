@@ -1,7 +1,20 @@
  import { useState, useContext, createContext } from 'react';
  
- const fakeAuth = () =>
-    new Promise((resolve) => {
+export interface IAuthToken {
+  id:string;
+  name:string,
+  permissions:string[];
+  roles:string[];
+}
+
+export interface IAuthProvider {
+  token:IAuthToken|null;
+  onLogin(): any;
+  onLogout(): any;
+}
+
+ const fakeAuth = (): Promise<IAuthToken> =>
+    new Promise<IAuthToken>((resolve) => {
     setTimeout(() => resolve({ 
         id: '1',
         name: 'Steve Green',
@@ -9,12 +22,12 @@
         roles: ['admin'],
       }), 2500);
  });
-
- const AuthContext = createContext(null);
-
- export const AuthProvider = ({ children }) => {
  
-    const [token, setToken] = useState(null);
+ const AuthContext = createContext<IAuthProvider|null>(null);
+
+ export const AuthProvider = ({ children }:any) => {
+     
+    const [token, setToken] = useState<IAuthToken|null>(null);
   
     const handleLogin = async () => {
       const token = await fakeAuth();
@@ -25,7 +38,7 @@
       setToken(null);
     };
   
-    const value = {
+    const value :IAuthProvider= {
       token,
       onLogin: handleLogin,
       onLogout: handleLogout,
@@ -38,6 +51,6 @@
     );
   };
 
-  export const useAuth = () => {
+  export const useAuth = (): IAuthProvider|null => {
     return useContext(AuthContext);
   };
