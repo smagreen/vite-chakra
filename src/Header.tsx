@@ -14,7 +14,7 @@ export const Header = () => (
       Simple pricing for your business
     </Heading>
     <Text fontWeight='medium' fontSize={['sm','lg','2xl']} pt='4' textAlign={['left','left','center']}>
-      Plans that are carefully crafted to suit your business.
+      Carefully crafted plans to frustrate our customers.
     </Text>
    </Box>
   </Box>
